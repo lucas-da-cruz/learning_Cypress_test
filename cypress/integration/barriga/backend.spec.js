@@ -1,13 +1,13 @@
 /// <reference types = "cypress" />
 
 describe('Should test at a service level', () => {
-    let token;
+    //let token;
 
     before(() => {
         cy.getToken('lucas@lucastest.com', '1234')
-        .then(tkn => {
+        /*.then(tkn => {
             token = tkn
-        })
+        })*/
     })
 
     beforeEach(() => {
@@ -18,7 +18,7 @@ describe('Should test at a service level', () => {
         cy.request({
             method: 'POST',
             url: '/contas',
-            headers: {Authorization: `JWT ${token}`},
+            //headers: {Authorization: `JWT ${token}`},
             body: {
                 nome: "Conta via REST"
             }
@@ -39,7 +39,7 @@ describe('Should test at a service level', () => {
             cy.request({
                 method: 'PUT',
                 url: `/contas/${contaId}`,
-                headers: {Authorization: `JWT ${token}`},
+                //headers: {Authorization: `JWT ${token}`},
                 body: {
                     nome: 'Conta via REST'
                 }
@@ -54,7 +54,7 @@ describe('Should test at a service level', () => {
         cy.request({
             method: 'POST',
             url: '/contas',
-            headers: {Authorization: `JWT ${token}`},
+            //headers: {Authorization: `JWT ${token}`},
             body: {
                 nome: "Conta mesmo nome"
             },
@@ -76,7 +76,7 @@ describe('Should test at a service level', () => {
             cy.request({
                 method: 'POST',
                 url: '/transacoes',
-                headers: {Authorization: `JWT ${token}`},
+                //headers: {Authorization: `JWT ${token}`},
                 body: {
                     conta_id: contaId,
                     //data_pagamento: "21/11/2019",
@@ -98,7 +98,7 @@ describe('Should test at a service level', () => {
         cy.request({
             url: '/saldo',
             method: 'GET',
-            headers: {Authorization: `JWT ${token}`}
+            //headers: {Authorization: `JWT ${token}`}
         }).then(res => {
             let saldoConta = null;
             res.body.forEach(c => {
@@ -112,13 +112,13 @@ describe('Should test at a service level', () => {
         cy.request({
             url: '/transacoes',
             method: 'GET',
-            headers: {Authorization: `JWT ${token}`},
+            //headers: {Authorization: `JWT ${token}`},
             qs: {descricao: 'Movimentacao 1, calculo saldo'}
         }).then (res => {
             cy.request({
                 url: `/transacoes/${res.body[0].id}`,
                 method: 'PUT',
-                headers: {Authorization: `JWT ${token}`},
+                //headers: {Authorization: `JWT ${token}`},
                 body: {
                     conta_id: res.body[0].conta_id,
                     //data_pagamento: "21/11/2019",
@@ -135,7 +135,7 @@ describe('Should test at a service level', () => {
         cy.request({
             url: '/saldo',
             method: 'GET',
-            headers: {Authorization: `JWT ${token}`}
+            //headers: {Authorization: `JWT ${token}`}
         }).then(res => {
             let saldoConta = null;
             res.body.forEach(c => {
@@ -147,17 +147,17 @@ describe('Should test at a service level', () => {
         });
     })
 
-    it.only('Should remove a transaction', () => {
+    it('Should remove a transaction', () => {
         cy.request({
             url: '/transacoes',
             method: 'GET',
-            headers: {Authorization: `JWT ${token}`},
+            //headers: {Authorization: `JWT ${token}`},
             qs: {descricao: 'Movimentacao para exclusao'}
         }).then(res => {
             cy.request({
                 url: `/transacoes/${res.body[0].id}`,
                 method: 'DELETE',
-                headers: {Authorization: `JWT ${token}`},
+                //headers: {Authorization: `JWT ${token}`},
             }).its('status').should('be.equal', 204)
         })
     })
