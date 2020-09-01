@@ -21,10 +21,30 @@ describe('Esperas...', () => {
         cy.get('#novoCampo').type('funciona');
     })
 
-    it.only("Deve fazer retrys (Retentativas)", () => {
+    it("Deve fazer retrys (Retentativas)", () => {
         cy.get('#buttonDelay').click();
         cy.get('#novoCampo')
             .should('exist')
             .type('funciona');
     })
+
+    it('Uso do find', () => {
+        cy.get('#buttonList').click();
+        
+        cy.get('#lista li')
+            .find('span')
+            .should('contain', 'Item 1');
+        //Find não funciona no exemplo abaixo
+        /*cy.get('#lista li')
+            .find('span')
+            .should('contain', 'Item 2');*/
+        
+        cy.get('#lista li span').should('contain', 'Item 2');
+    })
+
+    it.only('Uso do timeout', () => {
+        cy.get('#buttonDelay').click();
+        cy.get('#novoCampo', { timeout: 1000 }).should('exist');
+    })
+
 })
